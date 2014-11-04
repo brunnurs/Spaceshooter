@@ -16,6 +16,26 @@ public class PlayerController : MonoBehaviour
 
 	public Boundary boundaries;
 
+	public float tilt;
+
+	public GameObject bolt;
+
+	public Transform spawnPosition;
+
+	public float fireRate;
+
+	private float nextShot;
+
+
+	void Update()
+	{
+		if(Input.GetButton("Fire1") && Time.time > nextShot)
+		{
+			nextShot = Time.time + fireRate;
+			GameObject copy = (GameObject)Object.Instantiate(bolt,spawnPosition.position,spawnPosition.rotation);
+		}
+	}
+
 	void FixedUpdate()
 	{
 		float movementHorizontal = Input.GetAxis ("Horizontal");
@@ -26,6 +46,9 @@ public class PlayerController : MonoBehaviour
 		rigidbody.velocity = movement * speed;
 
 		ClampPosition ();
+
+		rigidbody.rotation = Quaternion.Euler (0.0f, 0.0f, rigidbody.velocity.x * -tilt);
+
 	}
 
 	void ClampPosition ()
