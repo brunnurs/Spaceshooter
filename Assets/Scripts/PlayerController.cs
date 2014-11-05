@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
 		{
 			nextShot = Time.time + fireRate;
 			GameObject copy = (GameObject)Object.Instantiate(bolt,spawnPosition.position,spawnPosition.rotation);
+			audio.Play();
 		}
 	}
 
