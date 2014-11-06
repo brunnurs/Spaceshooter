@@ -3,10 +3,10 @@ using System.Collections;
 
 public class DestroyByContact : MonoBehaviour 
 {
-	public GameObject astroidExplosion;
 	public GameObject playerExplosion;
+	public GameObject myExplosion;
 
-	public int scoreOfAstroid;
+	public int score;
 
 	private GameController gameController;
 
@@ -26,9 +26,11 @@ public class DestroyByContact : MonoBehaviour
 
 	void OnTriggerEnter(Collider other) 
 	{
+		Debug.Log("Trigger enter " + other.tag);
+
 		if (other.tag != "Boundary")
 		{
-			Instantiate(astroidExplosion,this.transform.position,this.transform.rotation);
+			Instantiate(myExplosion,this.transform.position,this.transform.rotation);
 
 			if(other.tag == "Player")
 			{
@@ -39,7 +41,7 @@ public class DestroyByContact : MonoBehaviour
 			Destroy(other.gameObject);	
 			Destroy(gameObject);
 
-			gameController.AddScore(scoreOfAstroid);
+			gameController.AddScore(score);
 		}
 	}
 }
