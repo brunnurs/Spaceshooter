@@ -4,9 +4,11 @@ using System.Collections;
 public class GameController : MonoBehaviour {
 
 	public GameObject hazard;
+	public GameObject enemy;
 	public Vector3 spawnValues;
 
 	public int hazardCount;
+	public int enemyCount;
 	public float spawnWait;
 	public float startWait;
 	public float waveWait;
@@ -43,16 +45,44 @@ public class GameController : MonoBehaviour {
 		yield return new WaitForSeconds (startWait);
 		while (isGameRunning)
 		{
-			for (int i = 0; i < hazardCount; i++)
-			{
-				Vector3 spawnPosition = new Vector3 (Random.Range (-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
-				Quaternion spawnRotation = Quaternion.identity;
-				Instantiate (hazard, spawnPosition, spawnRotation);
-				yield return new WaitForSeconds (spawnWait);
-			}
+			StartCoroutine(SpawnAllHazardsOfWave ());
+
+			StartCoroutine(SpawnAllEnemiesOfWave());
 
 			yield return new WaitForSeconds (waveWait);
 		}
+	}
+
+	IEnumerator SpawnAllHazardsOfWave ()
+	{
+		for (int i = 0; i < hazardCount; i++) 
+		{
+			SpawnSingleHazard ();
+			yield return new WaitForSeconds (spawnWait);
+		}
+	}
+
+	IEnumerator SpawnAllEnemiesOfWave ()
+	{
+		for (int i = 0; i < enemyCount; i++) 
+		{
+			SpawnSingleEnemy ();
+			yield return new WaitForSeconds (spawnWait);
+		}
+	}
+
+	void SpawnSingleHazard ()
+	{
+		Vector3 spawnPosition = new Vector3 (Random.Range (-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
+		Quaternion spawnRotation = Quaternion.identity;
+		Instantiate (hazard, spawnPosition, spawnRotation);
+	}
+
+	void SpawnSingleEnemy ()
+	{
+		Vector3 spawnPosition = new Vector3 (Random.Range (-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
+		Quaternion rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+		Instantiate (enemy, spawnPosition, rotation);
 	}
 
 	void InitializeScore ()

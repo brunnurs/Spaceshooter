@@ -8,10 +8,16 @@ public class EnemyController : MonoBehaviour
 	public GameObject bolt;
 	
 	public float fireRate;
-	
+
+	public float firstShootAfter;
+
 	private float nextShot;
-	
-	
+
+	void Start()
+	{
+		nextShot = Time.time + firstShootAfter;
+	}
+
 	void Update()
 	{
 		if(Time.time > nextShot)
@@ -20,10 +26,5 @@ public class EnemyController : MonoBehaviour
 			GameObject copy = (GameObject)Object.Instantiate(bolt,spawnPosition.position,spawnPosition.rotation);
 			audio.Play();
 		}
-	}
-
-	// Use this for initialization
-	void Start () {
-	
 	}
 }
